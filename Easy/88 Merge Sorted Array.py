@@ -45,3 +45,28 @@ nums2.length == n
 
 Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 '''
+from typing import List
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        temploop = nums1 + nums2
+        temp2 = []
+        for num in temploop:
+            if num != 0:
+                temp2.append(num)
+        nums1.clear()
+        if len(temp2) < m + n:
+            rep = (m+n) - len(temp2)
+            temp2.extend([0] * rep)
+        temp2.sort()
+        nums1 =  nums1.extend(temp2)
+        print(nums1)
+
+sol = Solution()
+nums1 = [1,2,3,0,0,0]
+nums2 = [2,5,6]
+m = 3
+n = 3
+print(sol.merge(nums1, m, nums2, n)) #[1,2,2,3,5,6]
