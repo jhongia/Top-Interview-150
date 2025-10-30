@@ -49,3 +49,18 @@ Constraints:
 -104 <= nums[i] <= 104
 nums is sorted in non-decreasing order.
 '''
+from typing import List
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        temp = []
+        for num in nums:
+            if num not in nums:
+                temp.append(num)
+            elif num in nums and temp.count(num) < 2:
+                temp.append(num)
+        nums[:] = temp
+        return len(temp)
+
+sol = Solution()
+nums = [1,1,1,2,2,3]
+sol.removeDuplicates(nums) #5
