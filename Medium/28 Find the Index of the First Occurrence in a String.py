@@ -30,10 +30,7 @@ haystack and needle consist of only lowercase English characters.
 
 class Solution:
     def strStr(self, haystack: str, needle: str) -> int:
-        idx = -1
-        if needle in haystack:
-            idx = haystack.find(needle)
-        return idx
+        return haystack.find(needle)
     
 sol = Solution()
 haystack = "sadbutsad"
