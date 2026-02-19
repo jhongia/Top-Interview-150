@@ -41,3 +41,20 @@ Constraints:
 strs[i] consists of lowercase English letters.
 '''
 
+from typing import List
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        d = {}
+
+        for word in strs:
+            wordSorted = ''.join(sorted(word))
+            if wordSorted not in d:
+                d[wordSorted] = [word]
+            else:
+                d[wordSorted].append(word)
+                
+        return list(d.values())
+    
+sol = Solution()
+strs = ["eat","tea","tan","ate","nat","bat"]
+print(sol.groupAnagrams(strs)) # [["bat"],["nat","tan"],["ate","eat","tea"]]
