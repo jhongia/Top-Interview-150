@@ -48,39 +48,21 @@ Follow up: Could you solve it using only O(s2.length) additional memory space?
 
 class Solution:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        if len(s1) + len(s2) != len(s3):
+        n, m = len(s1), len(s2)
+        if n + m != len(s3):
             return False
 
-        memo = {}
+        dp = [[False for _ in range(n+1)] for _ in range(m + 1)]
 
-        def dfs(i, j):
-            if (i, j) in memo:
-                return memo[(i, j)]
+        dp[0][0] = True
 
-            k = i + j
-
-            if k == len(s3):
-                return True
-
-            ans = False
-
-            if i < len(s1) and s1[i] == s3[k]:
-                ans = dfs(i + 1, j)
-
-            if not ans and j < len(s2) and s2[j] == s3[k]:
-                ans = dfs(i, j + 1)
-
-            memo[(i, j)] = ans
-            return ans
-
-        return dfs(0, 0)
-
-# Time complexity:
-
-# O(len(s1) * len(s2))
-
-# Because each (i, j) state is computed once.
-    
+        for r in range(m + 1):
+            for c in range(n + 1):
+                if c > 0 and dp[r][c-1] and s1[c-1] == s3[c-1+r]:
+                    dp[r][c] = True
+                elif r > 0 and dp[r-1][c] and s2[r-1] == s3[r-1+c]:
+                    dp[r][c] = True
+        return dp[-1][-1]
 s1 = "aabcc"
 s2 = "dbbca"
 s3 = "aadbbcbcac"
