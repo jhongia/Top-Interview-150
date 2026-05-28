@@ -60,28 +60,44 @@ from typing import List
 
 class Solution:
     def findSubstring(self, s: str, words: List[str]) -> List[int]:
-        from collections import Counter
-
-        word_count = Counter(words)
+        if not s or not words:
+            return []
+        
         word_length = len(words[0])
-        total_length = word_length * len(words)
-        n = len(s)
-        indices = []
-
-        for i in range(n - total_length + 1):
-            seen = Counter()
-            for j in range(i, i + total_length, word_length):
-                word = s[j:j + word_length]
-                if word in word_count:
-                    seen[word] += 1
-                    if seen[word] > word_count[word]:
+        word_count = len(words)
+        total_length = word_length * word_count
+        
+        if len(s) < total_length:
+            return []
+        
+        word_freq = {}
+        for word in words:
+            word_freq[word] = word_freq.get(word, 0) + 1
+        
+        result = []
+        
+        for i in range(len(s) - total_length + 1):
+            seen_words = {}
+            j = 0
+            while j < word_count:
+                word_start = i + j * word_length
+                word_end = word_start + word_length
+                current_word = s[word_start:word_end]
+                
+                if current_word in word_freq:
+                    seen_words[current_word] = seen_words.get(current_word, 0) + 1
+                    
+                    if seen_words[current_word] > word_freq[current_word]:
                         break
                 else:
                     break
-            else:
-                indices.append(i)
-
-        return indices
+                
+                j += 1
+            
+            if j == word_count:
+                result.append(i)
+        
+        return result
     
 s = "barfoothefoobarman"
 words = ["foo","bar"]
